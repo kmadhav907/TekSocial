@@ -1,5 +1,5 @@
 <template>
-    <div class="sidenavbar">
+    <div class="sidenavbar"  :class="{ 'is-primary': islogin }">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
 
 
@@ -10,11 +10,20 @@
                     <i :class="`${is_expanded ? 'fa-solid fa-bars btn-open' : 'fa-solid fa-close btn-close'}`"></i>
                 </div>
 
-                <a href="#home">
+                <router-link to="/profile">
                     <li :class="{ active: activeTab === 0 }"><i class="fa-solid fa-house icon"></i>
                         <span>HOME</span>
                     </li>
-                </a>
+                    <!-- <i class="fa-brands fa-facebook-messenger" ></i> -->
+                </router-link>
+                <!-- <router-link to="/"> <i class="fa-brands fa-facebook-messenger" ></i>
+                 </router-link> -->
+
+                <!-- <a href="/profile">
+                    <li :class="{ active: activeTab === 0 }"><i class="fa-solid fa-house icon"></i>
+                        <span>HOME</span>
+                    </li>
+                </a> -->
                 <a href="#about">
                     <li :class="{ active: activeTab === 1 }"><i class="fa-solid fa-comments icon"></i> <span>CHAT</span>
                     </li>
@@ -23,11 +32,17 @@
                     <li :class="{ active: activeTab === 2 }"><i class="fa-solid fa-users icon"></i> <span>FRIENDS</span>
                     </li>
                 </a>
-                <footer><a href="#profile" class="side-profile">
+                <footer><router-link to="/profile/1" class="side-profile">
                     <li :class="{ active: activeTab === 3 }"><img
                             src="@/assets/Profile_photo.png"><i ></i> <span></span>
                     </li>
-                </a>
+                </router-link>
+                <!-- <router-link to="/profile">
+                    <li :class="{ active: activeTab === 0 }"><i class="fa-solid fa-house icon"></i>
+                        <span>HOME</span>
+                    </li> -->
+                    <!-- <i class="fa-brands fa-facebook-messenger" ></i> -->
+                <!-- </router-link> -->
             </footer>
                 <!-- <footer>
                     <a href="#project">
@@ -44,6 +59,9 @@
 
 <script setup>
 
+let islogin = "http://localhost:8081/" === window.location.href;
+    console.log(islogin)
+
 
 
 </script>
@@ -54,15 +72,22 @@ export default {
     data() {
         return {
             activeTab: 0,
-            is_expanded: false,
+            is_expanded: true,
         };
     },
     methods: {
         ToggleMenu() {
             this.is_expanded = !this.is_expanded;
+            this.$emit('toggle-menu', this.is_expanded);
         },
     },
+//     methods: {
+//     ToggleMenu() {
+//       this.$emit('toggle-menu', !this.is_expanded);
+//     }
+//   },
 };
+
 
 </script>
 
@@ -89,6 +114,8 @@ body {
     font-family: "Roboto", sans-serif;
     color: rgb(26, 27, 27);
 }
+
+
 
 /* menyembunyikan konten yang melebihi luas body */
 body {
@@ -187,7 +214,8 @@ i {
 }
 
 .toggle-nav-item a li:hover {
-    color: white;
+    
+    color: black;
     transition: all 0.3s;
 
 }
@@ -296,8 +324,19 @@ footer {
 
 }
 
-.side-profile img{
-    margin-top: 20em;
+.toggle-nav-item .side-profile img{
+    margin-top: 21em !important;
+    padding: 0%;
+    margin: 0%;
+    display: flex;
+    max-width: 50px;
+    border-radius: 50%;
+    flex-direction: row;
+}
+
+.show-full-nav-item .side-profile img{
+    margin-left: .5em !important;
+    margin-top: 16em !important;
     padding: 0%;
     margin: 0%;
     display: flex;
@@ -328,5 +367,14 @@ icon.hover {
 
 .icon {
     color: #F24E1E;
+}
+
+.is-primary{
+    display: none;
+}
+
+
+.nav-link {
+     padding: 0px ;
 }
 </style>
